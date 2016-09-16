@@ -11,6 +11,11 @@ def length_and_sort(level_choice, word_pool)
   end
 end
 
+def find_random_word(right_words)
+  random_word = right_words[rand(right_words.length)]
+  puts "#{random_word}"
+end
+
 def main()
   word_pool = File.new("/usr/share/dict/words", 'r')
   word_pool = word_pool.readlines.map(&:chomp)
@@ -18,7 +23,7 @@ def main()
   print "> "
   level_choice = gets.chomp.upcase
   length_and_sort(level_choice, word_pool)
-  #function that randomizes goes here
+  find_random_word(word_pool)
   #letter and submission phase and functions
   #loop to play again
 
