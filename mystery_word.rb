@@ -16,6 +16,12 @@ def find_random_word(right_words)
   puts "#{random_word}"
 end
 
+def word_to_blanks(random_word)
+  random_word_letter_count = random_word.scan(/./)
+  playfield = random_word_letter_count.map{ |letter| letter = "_" }
+  playfield.join(" ")
+end
+
 def main()
   word_pool = File.new("/usr/share/dict/words", 'r')
   word_pool = word_pool.readlines.map(&:chomp)
@@ -24,6 +30,7 @@ def main()
   level_choice = gets.chomp.upcase
   length_and_sort(level_choice, word_pool)
   find_random_word(word_pool)
+
   #letter and submission phase and functions
   #loop to play again
 
