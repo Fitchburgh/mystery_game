@@ -32,7 +32,8 @@ end
 
 def length_and_sort(level_choice, word_pool)
   if level_choice == "EASY"
-    word_pool.map { |word| word.length} #array of length of all words
+    word_pool.keep_if { |word| (word.length >= 4) && (word.length <=6) }
+# PROBLEM: Array of all words as items, within array.
   elsif level_choice == "NORMAL"
   elsif level_choice == "HARD"
   else
@@ -56,3 +57,19 @@ def choose_random()
   easy_words = word_pool["EASY"]
 
 end
+
+
+
+
+
+
+
+#
+#
+# right_words_easy = []
+# word_length_and_word = {}
+# word_length_and_word[word_pool.map { |word| word.length}] =  right_words_easy#array of length of all words
+# # word_length.each do |word_length|
+# #   if word_length >= 4 || word_length <= 6
+# #   right_words_easy << word_pool`
+# # end
