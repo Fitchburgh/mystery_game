@@ -2,7 +2,7 @@
 
 ## To Run :
 ``` rb
-$ ruby myster_word.rb
+$ ruby mystery_word.rb
 ```
 ## To Play :  
 Enter which mode you would like to play: Easy, Normal, or Hard. If you enter any other value, you will be prompted to select only Easy, Normal, or Hard.
@@ -13,4 +13,4 @@ To start guessing, simply enter a letter you believe is in that word. If you are
 
 Duplicate letter guesses do not count as turns.
 
-Once you've either completed the word or failed, the game will ask if you would like to play again with a new word. 
+Once you've either completed the word or failed, the game will ask if you would like to play again with a new word.
