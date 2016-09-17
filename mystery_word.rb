@@ -9,12 +9,7 @@ def length_and_sort(level_choice, word_pool)
   end
 end
 
-def find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
-  # if random_word.include?(guessed_letter) == false
-  #   guess_count += 1
-  #   puts " in function guess count #{guess_count}"
-  #   puts "You've guessed wrong! Try again."
-  #elsif random_word.each do |letter|
+def find_and_replace(guessed_letter, random_word, word_as_blanks)
   random_word.each do |letter|
       while random_word.include?(guessed_letter)
         index_point = random_word.index(guessed_letter)
@@ -45,10 +40,8 @@ def main()
     random_word = random_word_letter_count # string.each_char makes this easy
     playfield = random_word_letter_count.map{ |letter| letter = "_" }
     word_as_blanks = playfield
-    thing = word_as_blanks.join(" ")
-    puts thing
-
-    puts "#{word_as_blanks}"
+    joined_blanks = word_as_blanks.join(" ")
+    puts joined_blanks
 
 # needs to be in loop
     while guessed_letter != random_word_string
@@ -61,8 +54,9 @@ def main()
           puts " in function guess count #{guess_count}"
           puts "You've guessed wrong!"
         end
-        find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
-        puts "#{word_as_blanks}"
+        find_and_replace(guessed_letter, random_word, word_as_blanks)
+        word_and_blanks = word_as_blanks.join(" ")
+        puts "#{word_and_blanks}"
       else
         puts "Game over. Too many guesses"
         break
