@@ -11,37 +11,27 @@ def length_and_sort(level_choice, word_pool)
   end
 end
 
-def find_and_replace(guess_count, guessed_letter, random_word)
-  1.times do
-    if random_word.include?(guessed_letter)
+def find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
+  random_word.each do |letter|
+    while random_word.include?(guessed_letter)
       index_point = random_word.index(guessed_letter)
-      puts "#{index_point}"
+      word_as_blanks << guessed_letter
       random_word.delete_at(index_point)
-      print "#{random_word}"
-    else
-      random_word.include?(guessed_letter)
-      puts "You've guessed wrong!"
-      guess_count += 1
+      puts "#{word_as_blanks}"
+      word_as_blanks.insert(index_point, word_as_blanks.delete_at(-1))
+      deleted = word_as_blanks.delete_at(-1)
+      random_word.insert(index_point, "!")
+      puts "#{random_word} compare to #{deleted}"
     end
+  if
+    random_word.include?(guessed_letter)
+    puts "You've guessed wrong!"
+    guess_count += 1
   end
 end
 
-# random_word = ["a", "a", "b"]
-
-# def find_random_word(right_words)
-#   random_word = right_words[rand(right_words.length)]
-#   puts "#{random_word}"
-#   random_word_letter_count = random_word.scan(/./)
-#   random_word = random_word_letter_count# string.each_char makes this easy
-#   playfield = random_word_letter_count.map{ |letter| letter = "_" }
-#   word_as_blanks = playfield.join(" ")
-#   print random_word
-#   puts "#{word_as_blanks}"
-# end
-
 def main()
   guess_count = 0
-
   guessed_letter = ""
   word_pool = File.new("/usr/share/dict/words", 'r')
   word_pool = word_pool.readlines.map(&:chomp)
@@ -56,7 +46,7 @@ def main()
     random_word_letter_count = random_word.scan(/./)
     random_word = random_word_letter_count# string.each_char makes this easy
     playfield = random_word_letter_count.map{ |letter| letter = "_" }
-    word_as_blanks = playfield.join(" ")
+    word_as_blanks = playfield
 
     print random_word
 
@@ -64,9 +54,10 @@ def main()
 
     print "> "
     guessed_letter = gets.chomp.downcase
-    find_and_replace(guess_count, guessed_letter, random_word)
+    find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
+    puts "#{word_as_blanks}"
   else
-    puts "failed if"
+    puts "failed if loop in main"
   end
 
 # random word needs to equal the random word array AFTER it selects it.
