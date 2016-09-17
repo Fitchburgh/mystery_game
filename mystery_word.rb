@@ -12,21 +12,23 @@ def length_and_sort(level_choice, word_pool)
 end
 
 def find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
-  random_word.each do |letter|
-    while random_word.include?(guessed_letter)
-      index_point = random_word.index(guessed_letter)
-      word_as_blanks << guessed_letter
-      random_word.delete_at(index_point)
-      puts "#{word_as_blanks}"
-      word_as_blanks.insert(index_point, word_as_blanks.delete_at(-1))
-      deleted = word_as_blanks.delete_at(-1)
-      random_word.insert(index_point, "!")
-      puts "#{random_word} compare to #{deleted}"
-    end
   if
-    random_word.include?(guessed_letter)
+    random_word.include?(guessed_letter) == false
     puts "You've guessed wrong!"
     guess_count += 1
+  elsif
+    random_word.each do |letter|
+      while random_word.include?(guessed_letter)
+        index_point = random_word.index(guessed_letter)
+        word_as_blanks << guessed_letter
+        random_word.delete_at(index_point)
+        puts "#{word_as_blanks}"
+        word_as_blanks.insert(index_point, word_as_blanks.delete_at(-1))
+        deleted = word_as_blanks.delete_at(-1)
+        random_word.insert(index_point, "!")
+        puts "#{random_word} compare to #{deleted}"
+      end
+    end
   end
 end
 
