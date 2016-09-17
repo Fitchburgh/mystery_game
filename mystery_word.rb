@@ -38,7 +38,7 @@ def main()
   level_choice = gets.chomp.downcase
   if length_and_sort(level_choice, word_pool)
     random_word = word_pool[rand(word_pool.length)].downcase
-
+    x = random_word
     puts "#{random_word}"
 
     random_word_letter_count = random_word.scan(/./)
@@ -50,11 +50,19 @@ def main()
 
     puts "#{word_as_blanks}"
 
-    print "> "
+# needs to be in loop
 
+    puts "Your letter, please."
+    print "> "
     guessed_letter = gets.chomp.downcase
+    if guessed_letter == x
+      puts "You win!"
+      exit
+    end
     find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
+
     puts "#{word_as_blanks}"
+# end of loop
   else
     puts "Like....what level did you mean dawg?"
   end
