@@ -11,16 +11,16 @@ end
 
 def find_and_replace(guessed_letter, random_word, word_as_blanks)
   random_word.each do |letter|
-      while random_word.include?(guessed_letter)
-        index_point = random_word.index(guessed_letter)
-        word_as_blanks << guessed_letter
-        random_word.delete_at(index_point)
-        word_as_blanks.insert(index_point, word_as_blanks.delete_at(-1))
-        deleted = word_as_blanks.delete_at(-1)
-        random_word.insert(index_point, "!")
+    while random_word.include?(guessed_letter)
+      index_point = random_word.index(guessed_letter)
+      random_word.delete_at(index_point)
+      random_word.insert(index_point, "!")
+      word_as_blanks.each do |blank|
+        word_as_blanks.delete_at(index_point)
+        word_as_blanks.insert(index_point, guessed_letter)
       end
     end
-  # end
+  end
 end
 
 def main()
