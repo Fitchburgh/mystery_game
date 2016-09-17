@@ -52,7 +52,7 @@ def main()
         if random_word.include?(guessed_letter) == false
           guess_count += 1
           puts " in function guess count #{guess_count}"
-          puts "You've guessed wrong!"
+          puts "You've guessed wrong! The real word was #{random_word.join}."
         end
         find_and_replace(guessed_letter, random_word, word_as_blanks)
         word_and_blanks = word_as_blanks.join(" ")
