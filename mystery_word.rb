@@ -10,12 +10,12 @@ def length_and_sort(level_choice, word_pool)
 end
 
 def find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
-  if
-    random_word.include?(guessed_letter) == false
-    puts "You've guessed wrong! Try again."
-    guess_count += 1
-  elsif
-    random_word.each do |letter|
+  # if random_word.include?(guessed_letter) == false
+  #   guess_count += 1
+  #   puts " in function guess count #{guess_count}"
+  #   puts "You've guessed wrong! Try again."
+  #elsif random_word.each do |letter|
+  random_word.each do |letter|
       while random_word.include?(guessed_letter)
         index_point = random_word.index(guessed_letter)
         word_as_blanks << guessed_letter
@@ -25,7 +25,7 @@ def find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
         random_word.insert(index_point, "!")
       end
     end
-  end
+  # end
 end
 
 def main()
@@ -38,11 +38,11 @@ def main()
   level_choice = gets.chomp.downcase
   if length_and_sort(level_choice, word_pool)
     random_word = word_pool[rand(word_pool.length)].downcase
-    x = random_word
+    random_word_string = random_word
     puts "#{random_word}"
 
     random_word_letter_count = random_word.scan(/./)
-    random_word = random_word_letter_count# string.each_char makes this easy
+    random_word = random_word_letter_count # string.each_char makes this easy
     playfield = random_word_letter_count.map{ |letter| letter = "_" }
     word_as_blanks = playfield
     thing = word_as_blanks.join(" ")
@@ -51,22 +51,30 @@ def main()
     puts "#{word_as_blanks}"
 
 # needs to be in loop
-
-    puts "Your letter, please."
-    print "> "
-    guessed_letter = gets.chomp.downcase
-    if guessed_letter == x
-      puts "You win!"
-      exit
+    while guessed_letter != random_word_string
+      if guess_count < 8
+        puts "Enter your letter or your guess, please."
+        print "> "
+        guessed_letter = gets.chomp.downcase
+        if random_word.include?(guessed_letter) == false
+          guess_count += 1
+          puts " in function guess count #{guess_count}"
+          puts "You've guessed wrong!"
+        end
+        find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
+        puts "#{word_as_blanks}"
+      else
+        puts "Game over. Too many guesses"
+        break
+      end
     end
-    find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
-
-    puts "#{word_as_blanks}"
-# end of loop
+  # end of loop
+      if guessed_letter == random_word_string
+      puts "You win!"
+      end
   else
     puts "Like....what level did you mean dawg?"
   end
-  #loop to play again
 end
 
 if __FILE__ == $PROGRAM_NAME
