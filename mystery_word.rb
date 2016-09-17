@@ -6,21 +6,27 @@ def length_and_sort(level_choice, word_pool)
     word_pool.keep_if { |word| (word.length >= 6) && (word.length <= 8) }
   elsif level_choice == "HARD"
     word_pool.keep_if { |word| word.length > 8 }
-  else
-    puts "You can't do that."
   end
 end
 
 def find_random_word(right_words)
   random_word = right_words[rand(right_words.length)]
   puts "#{random_word}"
-end
-
-def word_to_blanks(random_word)
   random_word_letter_count = random_word.scan(/./)
   playfield = random_word_letter_count.map{ |letter| letter = "_" }
-  playfield.join(" ")
+  word_as_blanks = playfield.join(" ")
+  puts "#{word_as_blanks}"
 end
+
+# def word_to_blanks(random_word)
+#   random_word_letter_count = random_word.scan(/./)
+#   p "hi"
+#   playfield = random_word_letter_count.map{ |letter| letter = "_" }
+#   puts "2"
+#   playfield.join(" ")
+#   puts "3"
+# end
+
 
 def main()
   word_pool = File.new("/usr/share/dict/words", 'r')
@@ -28,8 +34,11 @@ def main()
   puts "What level would you like to play? Type Easy, Normal, or Hard."
   print "> "
   level_choice = gets.chomp.upcase
-  length_and_sort(level_choice, word_pool)
-  find_random_word(word_pool)
+  if length_and_sort(level_choice, word_pool)
+    find_random_word(word_pool)
+  else
+    puts "You can't do that."
+  end
 
   #letter and submission phase and functions
   #loop to play again
