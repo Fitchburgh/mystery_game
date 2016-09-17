@@ -9,26 +9,32 @@ def length_and_sort(level_choice, word_pool)
   end
 end
 
+def find_and_replace(guess_count, guessed_letter)
+  loop do |letter|
+    if random_word.include? (guessed_letter)
+      index_point = random_word.index
+      random_word.replace("!")
+    else
+      guessed_letter.!include (random_word)
+      puts "You've guessed wrong!"
+      guess_count -= 1
+    end
+  end
+end
+
+# random_word = ["a", "a", "b"]
+
 def find_random_word(right_words)
   random_word = right_words[rand(right_words.length)]
   puts "#{random_word}"
-  random_word_letter_count = random_word.scan(/./)
+  random_word_letter_count = random_word.scan(/./) # string.each_char makes this easy
   playfield = random_word_letter_count.map{ |letter| letter = "_" }
   word_as_blanks = playfield.join(" ")
   puts "#{word_as_blanks}"
 end
 
-# def word_to_blanks(random_word)
-#   random_word_letter_count = random_word.scan(/./)
-#   p "hi"
-#   playfield = random_word_letter_count.map{ |letter| letter = "_" }
-#   puts "2"
-#   playfield.join(" ")
-#   puts "3"
-# end
-
-
 def main()
+  guess_count = 0
   word_pool = File.new("/usr/share/dict/words", 'r')
   word_pool = word_pool.readlines.map(&:chomp)
   puts "What level would you like to play? Type Easy, Normal, or Hard."
@@ -39,6 +45,7 @@ def main()
   else
     puts "You can't do that."
   end
+  find_and_replace(guess_count, random_word)
 
   #letter and submission phase and functions
   #loop to play again
@@ -48,41 +55,3 @@ end
 if __FILE__ == $PROGRAM_NAME
   main
 end
-
-
-# def choose_random()
-#   # easy_words = word_pool["EASY"]
-#
-# end
-
-# word_pool {
-#   "EASY" => {
-#       1 => "word",
-#   },
-#   "NORMAL" => {
-#       1 => "word",
-#   },
-#   "HARD" => {
-#     1 => "word",
-#   }
-# }
-
-# def word_array_matches_level(level_choice, word_pool)
-#   if word_pool.has_key?(level_choice)
-#     # create storage thing containing possible words to choose random from
-#     # pick random word
-#     # store random word as variable
-#   end
-# end
-
-
-
-#
-#
-# right_words_easy = []
-# word_length_and_word = {}
-# word_length_and_word[word_pool.map { |word| word.length}] =  right_words_easy#array of length of all words
-# # word_length.each do |word_length|
-# #   if word_length >= 4 || word_length <= 6
-# #   right_words_easy << word_pool`
-# # end
