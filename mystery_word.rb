@@ -14,7 +14,7 @@ end
 def find_and_replace(guess_count, guessed_letter, random_word, word_as_blanks)
   if
     random_word.include?(guessed_letter) == false
-    puts "You've guessed wrong!"
+    puts "You've guessed wrong! Try again."
     guess_count += 1
   elsif
     random_word.each do |letter|
@@ -42,7 +42,7 @@ def main()
   level_choice = gets.chomp.downcase
   if length_and_sort(level_choice, word_pool)
 
-    random_word = word_pool[rand(word_pool.length)]
+    random_word = word_pool[rand(word_pool.length)].downcase
 
     puts "#{random_word}"
     random_word_letter_count = random_word.scan(/./)
