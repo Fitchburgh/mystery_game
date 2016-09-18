@@ -6,6 +6,9 @@ def length_and_sort(level_choice, word_pool)
     word_pool.keep_if { |word| (word.length >= 6) && (word.length <= 8) }
   elsif level_choice == "hard"
     word_pool.keep_if { |word| word.length > 8 }
+  elsif level_choice == "exit"
+    puts "See ya next time!"
+    exit
   end
 end
 
@@ -30,8 +33,8 @@ def main()
   word_pool = word_pool.readlines.map(&:chomp)
   puts "What level would you like to play?"
   loop do # if easy/normal/hard is chosen
-    print "Type Easy, Normal, or Hard."
-    print "> "
+    print "Type Easy, Normal, Hard, or Exit."
+    print " > "
     level_choice = gets.chomp.downcase
     # creates random word
     if length_and_sort(level_choice, word_pool)
@@ -46,23 +49,28 @@ def main()
       word_as_blanks = playfield
       joined_blanks = word_as_blanks.join(" ")
       puts joined_blanks
-  # beginning of loop
-    puts "Enter your letter or your guess, please."
-    print "> "
-    guessed_letter = gets.chomp.downcase
-      if guessed_letter == random_word_string
-        puts "You win!"
-        print "Want to play again? > "
-      else
-        while guessed_letter != random_word_string
+  # beginning of checking input against word/letters in word
+    # puts "Enter your letter or your guess, please."
+    # print " > "
+    # guessed_letter = gets.chomp.downcase
+    #   if guessed_letter == random_word_string
+    #     puts "You win!"
+    #     print "Want to play again? > "
+      # else
+        # looping through each letter
+        loop do
           if guess_count < 8
             puts "Enter your letter or your guess, please."
-            print "> "
+            print " > "
             guessed_letter = gets.chomp.downcase
-            if random_word.include?(guessed_letter) == false
+            if guessed_letter == random_word_string
+              puts "You win!"
+              print "Want to play again? > "
+              break
+            elsif random_word.include?(guessed_letter) == false
               guess_count += 1
               puts "Guess ##{guess_count} of 8. Try again."
-            elsif guessed_letter.length > 1 # && guessed_letter.length < random_word_string.length
+            elsif guessed_letter.length > 1 && guessed_letter.length < random_word_string.length
               puts "You can't do that! Try guessing one letter at a time or guess the full word."
             end
             find_and_replace(guessed_letter, random_word, word_as_blanks)
@@ -73,12 +81,11 @@ def main()
             break
           end
         end
-      end
-    # end of letter checking loop
+        # end of looping through each letter
     else
-      puts "Like....what level did you mean, dawg?"
-    end
-  end
+      puts "Like....what level did you mean, dawg?" # returns to beginning loop asking for level choice again
+    end # ends checking input against word/letters in word
+  end # ends loop asking for level choice
 end
 if __FILE__ == $PROGRAM_NAME
   main
