@@ -1,0 +1,99 @@
+
+def length_and_sort(level_choice, word_pool)
+  if level_choice == "easy"
+    word_pool.keep_if { |word| (word.length >= 4) && (word.length <= 6) }
+  elsif level_choice == "normal"
+    word_pool.keep_if { |word| (word.length >= 6) && (word.length <= 8) }
+  elsif level_choice == "hard"
+    word_pool.keep_if { |word| word.length > 8 }
+  elsif level_choice == "exit"
+    puts "See ya next time!"
+    exit
+  end
+end
+
+def find_and_replace(guessed_letter, random_word, word_as_blanks)
+  random_word.each do |letter|
+    while random_word.include?(guessed_letter)
+      index_point = random_word.index(guessed_letter)
+      random_word.delete_at(index_point)
+      random_word.insert(index_point, "!")
+      word_as_blanks.each do |blank|
+        word_as_blanks.delete_at(index_point)
+        word_as_blanks.insert(index_point, guessed_letter)
+      end
+    end
+  end
+end
+
+def same_letter_check(guessed_letters_arr, guessed_letter, word_as_blanks) #Fitch add
+  if guessed_letters_arr.include?(guessed_letter)
+    puts "You've guessed that letter before, please try again."
+    p word_as_blanks
+  else
+    guessed_letters_arr << guessed_letter
+  end
+end
+
+def main()
+  guess_count = 0
+  guessed_letter = ""
+  guessed_letters_arr = [] #Fitch add
+  word_pool = File.new("/usr/share/dict/words", 'r')
+  word_pool = word_pool.readlines.map(&:chomp)
+  puts "What level would you like to play?"
+  loop do # if easy/normal/hard is chosen
+    print "Type Easy, Normal, Hard, or Exit."
+    print " > "
+    level_choice = gets.chomp.downcase
+    # creates random word
+    if length_and_sort(level_choice, word_pool)
+      random_word = word_pool[rand(word_pool.length)].downcase
+      random_word_string = random_word
+      original_word = random_word
+      puts "#{random_word}"
+  # turns random word into correct blanks playing field
+      random_word_letter_count = random_word.scan(/./)
+      random_word = random_word_letter_count # string.each_char makes this easy
+      playfield = random_word_letter_count.map{ |letter| letter = "_" }
+      word_as_blanks = playfield
+      joined_blanks = word_as_blanks.join(" ")
+      puts joined_blanks
+        loop do
+          if guess_count < 8
+            puts "Enter your letter or your guess, please."
+            print " > "
+            guessed_letter = gets.chomp.downcase
+              if guessed_letter == random_word_string
+                puts "You win!"
+                print "Want to play again? > "
+                break
+              elsif same_letter_check(guessed_letters_arr, guessed_letter, word_as_blanks) #fitch add
+                puts "#{guess_count}"
+                if random_word.include?(guessed_letter) == false && guessed_letters_arr.include?(guessed_letter) #fitch edits/moves
+                  guess_count += 1
+                  puts "Guess ##{guess_count} of 8. Try again."
+                end#fitch add/edit
+              elsif guessed_letter.length > 1 && guessed_letter.length < random_word_string.length
+                puts "You can't do that! Try guessing one letter at a time or the full word."
+              # elsif random_word.include?(guessed_letter) == false
+              #   guess_count += 1
+              #   puts "Guess ##{guess_count} of 8. Try again."
+              end
+              find_and_replace(guessed_letter, random_word, word_as_blanks)
+              word_and_blanks = word_as_blanks.join(" ")
+              puts "#{word_and_blanks}"
+          else
+            puts "Game over. Too many guesses. The real word was #{original_word}."
+            break
+          end
+        end
+        # end of looping through each letter
+    else
+      puts "Like....what level did you mean, dawg?" # returns to beginning loop asking for level choice again
+    end # ends checking input against word/letters in word
+  end # ends loop asking for level choice
+end
+if __FILE__ == $PROGRAM_NAME
+  main
+end
