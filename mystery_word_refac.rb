@@ -42,14 +42,12 @@ def get_index_of_guess(letter_array, guess)
   end
 end
 
+# if get_index_of_guess returns nil, need to ask for another letter because letter wasn't in word
+
 def get_index_replace_letter(letter_array, index_point)
-  if nil
-    puts "nil of index getting"
-  elsif
     letter_array.delete_at(index_point)
     letter_array = letter_array.insert(index_point, "!")
     return letter_array
-  end
 end
 
 def add_guess_to_underscores(all_guesses, underscore_array, index_point, guess)
