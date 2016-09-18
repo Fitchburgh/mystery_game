@@ -34,6 +34,7 @@ def main()
   if length_and_sort(level_choice, word_pool)
     random_word = word_pool[rand(word_pool.length)].downcase
     random_word_string = random_word
+    original_word = random_word
     puts "#{random_word}"
 
     random_word_letter_count = random_word.scan(/./)
@@ -52,13 +53,13 @@ def main()
         if random_word.include?(guessed_letter) == false
           guess_count += 1
           puts " in function guess count #{guess_count}"
-          puts "You've guessed wrong! The real word was #{random_word.join}."
+          puts "You've guessed wrong!"
         end
         find_and_replace(guessed_letter, random_word, word_as_blanks)
         word_and_blanks = word_as_blanks.join(" ")
         puts "#{word_and_blanks}"
       else
-        puts "Game over. Too many guesses"
+        puts "Game over. Too many guesses. The real word was #{original_word}."
         break
       end
     end
