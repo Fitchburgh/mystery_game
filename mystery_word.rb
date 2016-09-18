@@ -52,7 +52,7 @@ def main()
     guessed_letter = gets.chomp.downcase
       if guessed_letter == random_word_string
         puts "You win!"
-        break
+        print "Want to play again? > "
       else
         while guessed_letter != random_word_string
           if guess_count < 8
