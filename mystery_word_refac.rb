@@ -29,15 +29,25 @@ end
 
 def word_to_underscores(random_word_letter_array)
   word_as_underscores = random_word_letter_array.map{ |letter| letter = "_"}
-  return word_as_underscores.join(" ")
+  return word_as_underscores
 end
 
-def get_index_replace_letter(letter_array, guess)
+def get_index_of_guess(letter_array, guess)
   letter_array.include? guess
   index_point = letter_array.index(guess)
+  return index_point
+end
+
+def get_index_replace_letter(letter_array, index_point)
   letter_array.delete_at(index_point)
   letter_array = letter_array.insert(index_point, "!")
   return letter_array
+end
+
+def add_guess_to_underscores(underscore_array, index_point, guess)
+  underscore_array.delete_at(index_point)
+  underscore_array_with_guesses = underscore_array.insert(index_point, guess)
+  return underscore_array_with_guesses
 end
 
 # def same_letter_check(guessed_letters_arr, guessed_letter, word_as_blanks) #Fitch add
@@ -80,12 +90,16 @@ def main()
   puts "#{random_word}"
   random_word_letter_array = word_to_array(random_word)
   word_as_underscores = word_to_underscores(random_word_letter_array)
+  joined_word = word_as_underscores.join(" ")
   puts "#{random_word_letter_array}"
-  puts "#{word_as_underscores}"
+  puts "#{joined_word}"
   puts "What's your letter guess or entire word"
   guess = gets.chomp.downcase
-  word_after_a_correct_guess = get_index_replace_letter(random_word_letter_array, guess)
+  index_of_guess = get_index_of_guess(random_word_letter_array, guess)
+  word_after_a_correct_guess = get_index_replace_letter(random_word_letter_array, index_of_guess)
+  underscore_with_guesses = add_guess_to_underscores(word_as_underscores, index_of_guess, guess)
   puts "#{word_after_a_correct_guess}"
+  puts "#{underscore_with_guesses}"
 end
 
 if __FILE__ == $PROGRAM_NAME
