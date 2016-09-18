@@ -49,15 +49,6 @@ def main()
       word_as_blanks = playfield
       joined_blanks = word_as_blanks.join(" ")
       puts joined_blanks
-  # beginning of checking input against word/letters in word
-    # puts "Enter your letter or your guess, please."
-    # print " > "
-    # guessed_letter = gets.chomp.downcase
-    #   if guessed_letter == random_word_string
-    #     puts "You win!"
-    #     print "Want to play again? > "
-      # else
-        # looping through each letter
         loop do
           if guess_count < 8
             puts "Enter your letter or your guess, please."
@@ -67,11 +58,11 @@ def main()
               puts "You win!"
               print "Want to play again? > "
               break
+            elsif guessed_letter.length > 1 && guessed_letter.length < random_word_string.length
+              puts "You can't do that! Try guessing one letter at a time or the full word."
             elsif random_word.include?(guessed_letter) == false
               guess_count += 1
               puts "Guess ##{guess_count} of 8. Try again."
-            elsif guessed_letter.length > 1 && guessed_letter.length < random_word_string.length
-              puts "You can't do that! Try guessing one letter at a time or guess the full word."
             end
             find_and_replace(guessed_letter, random_word, word_as_blanks)
             word_and_blanks = word_as_blanks.join(" ")
