@@ -22,10 +22,24 @@ def get_random_word(right_length_words)
   return selected_word
 end
 
-def word_as_blanks(random_word)
+def word_to_array(random_word)
   random_word_letter_array = random_word.scan(/./) # scans for one letter, returns each letter as an item in array
-
+  return random_word_letter_array
 end
+
+def word_to_underscores(random_word_letter_array)
+  word_as_underscores = random_word_letter_array.map{ |letter| letter = "_"}
+  return word_as_underscores.join(" ")
+end
+
+# def same_letter_check(guessed_letters_arr, guessed_letter, word_as_blanks) #Fitch add
+#   if guessed_letters_arr.include?(guessed_letter)
+#     puts "You've guessed that letter before, please try again."
+#     p word_as_blanks
+#   else
+#     guessed_letters_arr << guessed_letter
+#   end
+# end
 
 # random_word_letter_count = random_word.scan(/./)
 # random_word = random_word_letter_count # string.each_char makes this easy
@@ -63,6 +77,10 @@ def main()
   right_length_words = get_list(min_max_length[0], min_max_length[1], word_pool)
   random_word = get_random_word(right_length_words)
   puts "#{random_word}"
+  random_word_letter_array = word_to_array(random_word)
+  word_as_underscores = word_to_underscores(random_word_letter_array)
+  puts "#{random_word_letter_array}"
+  puts "#{word_as_underscores}"
 end
 
 if __FILE__ == $PROGRAM_NAME
