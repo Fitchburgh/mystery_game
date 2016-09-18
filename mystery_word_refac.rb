@@ -33,52 +33,82 @@ def word_to_underscores(random_word_letter_array)
 end
 
 def get_index_of_guess(letter_array, guess)
-  letter_array.include? guess
-  index_point = letter_array.index(guess)
-  return index_point
+  if letter_array.include? guess
+    index_point = letter_array.index(guess)
+    return index_point
+  else
+    puts "Wrong answer."
+    #counter goes here..maybe?
+  end
 end
 
 def get_index_replace_letter(letter_array, index_point)
-  letter_array.delete_at(index_point)
-  letter_array = letter_array.insert(index_point, "!")
-  return letter_array
+  if nil
+    puts "nil of index getting"
+  elsif
+    letter_array.delete_at(index_point)
+    letter_array = letter_array.insert(index_point, "!")
+    return letter_array
+  end
 end
 
-def add_guess_to_underscores(underscore_array, index_point, guess)
+def add_guess_to_underscores(all_guesses, underscore_array, index_point, guess)
   underscore_array.delete_at(index_point)
   underscore_array_with_guesses = underscore_array.insert(index_point, guess)
   return underscore_array_with_guesses
 end
 
-# def same_letter_check(guessed_letters_arr, guessed_letter, word_as_blanks) #Fitch add
-#   if guessed_letters_arr.include?(guessed_letter)
-#     puts "You've guessed that letter before, please try again."
-#     p word_as_blanks
-#   else
-#     guessed_letters_arr << guessed_letter
-#   end
-# end
+def same_letter_check(all_guesses, guess)
+  if dupes_letter = all_guesses.include?(guess)
+    return dupes_letter
+  else
+    return false
+  end
+end
 
-# def find_and_replace(guessed_letter, random_word, word_as_blanks)
-#   random_word.each do |letter|
-#     while random_word.include?(guessed_letter)
-#       index_point = random_word.index(guessed_letter)
-#       random_word.delete_at(index_point)
-#       random_word.insert(index_point, "!")
-#       word_as_blanks.each do |blank|
-#         word_as_blanks.delete_at(index_point)
-#         word_as_blanks.insert(index_point, guessed_letter)
-#       end
+def everything(random_word_letter_array, guess, index_of_guess, all_guesses, word_as_underscores)
+  index_of_guess = get_index_of_guess(random_word_letter_array, guess)
+  word_after_a_correct_guess = get_index_replace_letter(random_word_letter_array, index_of_guess)
+  underscore_with_guesses = add_guess_to_underscores(all_guesses, word_as_underscores, index_of_guess, guess)
+  puts "You can't do that" if same_letter_check(all_guesses, guess)
+  all_guesses << guess
+  return underscore_with_guesses.join(" ")
+end
+
+# loop do
+#   if guess_count < 8
+#     puts "Enter your letter or your guess, please."
+#     print " > "
+#     guessed_letter = gets.chomp.downcase
+#     if guessed_letter == random_word_string
+#       puts "You win!"
+#       print "Want to play again? > "
+#       break
+#     elsif guessed_letter.length > 1 && guessed_letter.length < random_word_string.length
+#       puts "You can't do that! Try guessing one letter at a time or the full word."
+#     elsif random_word.include?(guessed_letter) == false
+#       guess_count += 1
+#       puts "Guess ##{guess_count} of 8. Try again."
 #     end
+#     find_and_replace(guessed_letter, random_word, word_as_blanks)
+#     word_and_blanks = word_as_blanks.join(" ")
+#     puts "#{word_and_blanks}"
+#   else
+#     puts "Game over. Too many guesses. The real word was #{original_word}."
+#     break
 #   end
 # end
 
 def main()
+  index_of_guess = []
+  underscore_with_guesses = []
+  word_after_a_correct_guess = []
   difficulty_length = {
     "easy" => [4, 6],
     "normal" => [6, 8],
     "hard" => [8, 25]
   }
+  all_guesses = []
   guess_count = 0
   guessed_letter = ""
   word_pool = File.new("/usr/share/dict/words", 'r')
@@ -95,11 +125,11 @@ def main()
   puts "#{joined_word}"
   puts "What's your letter guess or entire word"
   guess = gets.chomp.downcase
-  index_of_guess = get_index_of_guess(random_word_letter_array, guess)
-  word_after_a_correct_guess = get_index_replace_letter(random_word_letter_array, index_of_guess)
-  underscore_with_guesses = add_guess_to_underscores(word_as_underscores, index_of_guess, guess)
-  puts "#{word_after_a_correct_guess}"
-  puts "#{underscore_with_guesses}"
+  # put fxn here that does these 3 functions:
+  do_everything = everything(random_word_letter_array, guess, index_of_guess, all_guesses, word_as_underscores)
+  # end fxn
+  puts "#{all_guesses}"
+  puts "do everything: #{do_everything}"
 end
 
 if __FILE__ == $PROGRAM_NAME
