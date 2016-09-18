@@ -32,12 +32,21 @@ def word_to_underscores(random_word_letter_array)
   return word_as_underscores
 end
 
+def correct_word_guess(guess, random_word_string)
+  if guess == random_word_string
+    win_condition = true
+    puts "You win!"
+    return win_condition
+  end
+end
+
 def get_index_of_guess(letter_array, guess)
   if letter_array.include? guess
     index_point = letter_array.index(guess)
     return index_point
   else
     puts "Wrong answer."
+    # guess_count += 1
     #counter goes here..maybe?
   end
 end
@@ -58,6 +67,7 @@ end
 
 def same_letter_check(all_guesses, guess)
   if dupes_letter = all_guesses.include?(guess)
+    # guess_count -= 1
     return dupes_letter
   else
     return false
@@ -73,30 +83,6 @@ def everything(random_word_letter_array, guess, index_of_guess, all_guesses, wor
   return underscore_with_guesses.join(" ")
 end
 
-# loop do
-#   if guess_count < 8
-#     puts "Enter your letter or your guess, please."
-#     print " > "
-#     guessed_letter = gets.chomp.downcase
-#     if guessed_letter == random_word_string
-#       puts "You win!"
-#       print "Want to play again? > "
-#       break
-#     elsif guessed_letter.length > 1 && guessed_letter.length < random_word_string.length
-#       puts "You can't do that! Try guessing one letter at a time or the full word."
-#     elsif random_word.include?(guessed_letter) == false
-#       guess_count += 1
-#       puts "Guess ##{guess_count} of 8. Try again."
-#     end
-#     find_and_replace(guessed_letter, random_word, word_as_blanks)
-#     word_and_blanks = word_as_blanks.join(" ")
-#     puts "#{word_and_blanks}"
-#   else
-#     puts "Game over. Too many guesses. The real word was #{original_word}."
-#     break
-#   end
-# end
-
 def main()
   index_of_guess = []
   underscore_with_guesses = []
@@ -108,7 +94,6 @@ def main()
   }
   all_guesses = []
   guess_count = 0
-  guessed_letter = ""
   word_pool = File.new("/usr/share/dict/words", 'r')
   word_pool = word_pool.readlines.map(&:chomp)
   choice = get_level_choice
@@ -121,13 +106,22 @@ def main()
   joined_word = word_as_underscores.join(" ")
   puts "#{random_word_letter_array}"
   puts "#{joined_word}"
-  puts "What's your letter guess or entire word"
-  guess = gets.chomp.downcase
-  # put fxn here that does these 3 functions:
-  do_everything = everything(random_word_letter_array, guess, index_of_guess, all_guesses, word_as_underscores)
-  # end fxn
-  puts "#{all_guesses}"
-  puts "do everything: #{do_everything}"
+
+  loop do
+    puts "What's your letter guess or entire word"
+    guess = gets.chomp.downcase
+    until correct_word_guess(guess, random_word)
+
+
+      # correct_word_guess(guess, random_word)
+
+      # put fxn here that does these 3 functions:
+      do_everything = everything(random_word_letter_array, guess, index_of_guess, all_guesses, word_as_underscores)
+      # end fxn
+      puts "#{all_guesses}"
+      puts "do everything: #{do_everything}"
+    end
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
