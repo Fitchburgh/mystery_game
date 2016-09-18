@@ -32,6 +32,14 @@ def word_to_underscores(random_word_letter_array)
   return word_as_underscores.join(" ")
 end
 
+def get_index_replace_letter(letter_array, guess)
+  letter_array.include? guess
+  index_point = letter_array.index(guess)
+  letter_array.delete_at(index_point)
+  letter_array = letter_array.insert(index_point, "!")
+  return letter_array
+end
+
 # def same_letter_check(guessed_letters_arr, guessed_letter, word_as_blanks) #Fitch add
 #   if guessed_letters_arr.include?(guessed_letter)
 #     puts "You've guessed that letter before, please try again."
@@ -40,13 +48,6 @@ end
 #     guessed_letters_arr << guessed_letter
 #   end
 # end
-
-# random_word_letter_count = random_word.scan(/./)
-# random_word = random_word_letter_count # string.each_char makes this easy
-# playfield = random_word_letter_count.map{ |letter| letter = "_" }
-# word_as_blanks = playfield
-# joined_blanks = word_as_blanks.join(" ")
-# puts joined_blanks
 
 # def find_and_replace(guessed_letter, random_word, word_as_blanks)
 #   random_word.each do |letter|
@@ -81,6 +82,10 @@ def main()
   word_as_underscores = word_to_underscores(random_word_letter_array)
   puts "#{random_word_letter_array}"
   puts "#{word_as_underscores}"
+  puts "What's your letter guess or entire word"
+  guess = gets.chomp.downcase
+  word_after_a_correct_guess = get_index_replace_letter(random_word_letter_array, guess)
+  puts "#{word_after_a_correct_guess}"
 end
 
 if __FILE__ == $PROGRAM_NAME
