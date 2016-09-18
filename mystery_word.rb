@@ -28,49 +28,58 @@ def main()
   guessed_letter = ""
   word_pool = File.new("/usr/share/dict/words", 'r')
   word_pool = word_pool.readlines.map(&:chomp)
-  puts "What level would you like to play? Type Easy, Normal, or Hard."
-  print "> "
-  level_choice = gets.chomp.downcase
-  # creates random word
-  if length_and_sort(level_choice, word_pool)
-    random_word = word_pool[rand(word_pool.length)].downcase
-    random_word_string = random_word
-    original_word = random_word
-    puts "#{random_word}"
-# turns random word into correct blanks playing field
-    random_word_letter_count = random_word.scan(/./)
-    random_word = random_word_letter_count # string.each_char makes this easy
-    playfield = random_word_letter_count.map{ |letter| letter = "_" }
-    word_as_blanks = playfield
-    joined_blanks = word_as_blanks.join(" ")
-    puts joined_blanks
-# beginning of loop
-    while guessed_letter != random_word_string
-      if guess_count < 8
-        puts "Enter your letter or your guess, please."
-        print "> "
-        guessed_letter = gets.chomp.downcase
-        if random_word.include?(guessed_letter) == false
-          guess_count += 1
-          puts "Guess ##{guess_count} of 8. Try again."
-        end
-        find_and_replace(guessed_letter, random_word, word_as_blanks)
-        word_and_blanks = word_as_blanks.join(" ")
-        puts "#{word_and_blanks}"
-      else
-        puts "Game over. Too many guesses. The real word was #{original_word}."
+  puts "What level would you like to play?"
+  loop do # if easy/normal/hard is chosen
+    print "Type Easy, Normal, or Hard."
+    print "> "
+    level_choice = gets.chomp.downcase
+    # creates random word
+    if length_and_sort(level_choice, word_pool)
+      random_word = word_pool[rand(word_pool.length)].downcase
+      random_word_string = random_word
+      original_word = random_word
+      puts "#{random_word}"
+  # turns random word into correct blanks playing field
+      random_word_letter_count = random_word.scan(/./)
+      random_word = random_word_letter_count # string.each_char makes this easy
+      playfield = random_word_letter_count.map{ |letter| letter = "_" }
+      word_as_blanks = playfield
+      joined_blanks = word_as_blanks.join(" ")
+      puts joined_blanks
+  # beginning of loop
+    puts "Enter your letter or your guess, please."
+    print "> "
+    guessed_letter = gets.chomp.downcase
+      if guessed_letter == random_word_string
+        puts "You win!"
         break
+      else
+        while guessed_letter != random_word_string
+          if guess_count < 8
+            puts "Enter your letter or your guess, please."
+            print "> "
+            guessed_letter = gets.chomp.downcase
+            if random_word.include?(guessed_letter) == false
+              guess_count += 1
+              puts "Guess ##{guess_count} of 8. Try again."
+            elsif guessed_letter.length > 1 # && guessed_letter.length < random_word_string.length
+              puts "You can't do that! Try guessing one letter at a time or guess the full word."
+            end
+            find_and_replace(guessed_letter, random_word, word_as_blanks)
+            word_and_blanks = word_as_blanks.join(" ")
+            puts "#{word_and_blanks}"
+          else
+            puts "Game over. Too many guesses. The real word was #{original_word}."
+            break
+          end
+        end
       end
+    # end of letter checking loop
+    else
+      puts "Like....what level did you mean, dawg?"
     end
-  # end of loop
-    if guessed_letter == random_word_string
-    puts "You win!"
-    end
-  else
-    puts "Like....what level did you mean, dawg?"
   end
 end
-
 if __FILE__ == $PROGRAM_NAME
   main
 end
