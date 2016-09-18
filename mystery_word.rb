@@ -31,20 +31,20 @@ def main()
   puts "What level would you like to play? Type Easy, Normal, or Hard."
   print "> "
   level_choice = gets.chomp.downcase
+  # creates random word
   if length_and_sort(level_choice, word_pool)
     random_word = word_pool[rand(word_pool.length)].downcase
     random_word_string = random_word
     original_word = random_word
     puts "#{random_word}"
-
+# turns random word into correct blanks playing field
     random_word_letter_count = random_word.scan(/./)
     random_word = random_word_letter_count # string.each_char makes this easy
     playfield = random_word_letter_count.map{ |letter| letter = "_" }
     word_as_blanks = playfield
     joined_blanks = word_as_blanks.join(" ")
     puts joined_blanks
-
-# needs to be in loop
+# beginning of loop
     while guessed_letter != random_word_string
       if guess_count < 8
         puts "Enter your letter or your guess, please."
@@ -52,8 +52,7 @@ def main()
         guessed_letter = gets.chomp.downcase
         if random_word.include?(guessed_letter) == false
           guess_count += 1
-          puts " in function guess count #{guess_count}"
-          puts "You've guessed wrong!"
+          puts "Guess ##{guess_count} of 8. Try again."
         end
         find_and_replace(guessed_letter, random_word, word_as_blanks)
         word_and_blanks = word_as_blanks.join(" ")
@@ -64,11 +63,11 @@ def main()
       end
     end
   # end of loop
-      if guessed_letter == random_word_string
-      puts "You win!"
-      end
+    if guessed_letter == random_word_string
+    puts "You win!"
+    end
   else
-    puts "Like....what level did you mean dawg?"
+    puts "Like....what level did you mean, dawg?"
   end
 end
 
