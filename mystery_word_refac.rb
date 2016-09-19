@@ -12,6 +12,17 @@ def get_level_choice()
   return level_choice
 end
 
+def hangman()
+  puts "_________   "
+  puts "|        | "
+  puts "|        0 "
+  puts "|       (|) "
+  puts "|       / | "
+  puts "|"
+  puts "|"
+  puts "-----------"
+end
+
 def get_list(word_length_min, word_length_max, word_pool)
   word_pool.keep_if {|word| (word.length >= word_length_min) && (word.length <= word_length_max) }
   return word_pool
@@ -118,6 +129,7 @@ end
 
 
 def main()
+  hangman()
   guess = ""
   index_of_guess = []
   underscore_with_guesses = []
