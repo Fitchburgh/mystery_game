@@ -156,6 +156,7 @@ def main()
   loop do
     do_everything = everything(random_word_letter_array, guess, index_of_guess, all_guesses, word_as_underscores, guess_count, random_word, joined_word, guess_counter_other)
   end
+  puts "Hi."
 end
 
 if __FILE__ == $PROGRAM_NAME
